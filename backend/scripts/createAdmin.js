@@ -10,10 +10,7 @@ const createAdmin = async () => {
   const password = 'admin123';
   const role = 'admin';
 
-  await mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  await mongoose.connect(process.env.MONGO_URI);
 
   const existing = await User.findOne({ username });
   if (existing) {

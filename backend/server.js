@@ -18,10 +18,29 @@ const app = express();
 app.use(cors());
 app.use(json());
 
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error('MongoDB connection error:', err));
+// MongoDB connection (with connection caching for serverless)
+let cached = global.mongoose;
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+async function connectToDatabase() {
+  if (cached.conn) return cached.conn;
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(process.env.MONGODB_URI);
+  }
+  cached.conn = await cached.promise;
+  return cached.conn;
+}
+
+// Middleware to ensure DB connection for every request
+app.use(async (req, res, next) => {
+  try {
+    await connectToDatabase();
+    next();
+  } catch (err) {
+    res.status(500).json({ message: 'Database connection error', error: err.message });
+  }
+});
 
 app.use('/api/auth', authRoutes);
 app.use('/api/liquor', liquorRoutes);
@@ -37,7 +56,4 @@ app.get('/', (req, res) => {
   res.send('Bar Management System API');
 });
 
-const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-}); 
+export default app; 
