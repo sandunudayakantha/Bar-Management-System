@@ -128,29 +128,30 @@ const UserManagement = () => {
             </div>
             <div>
               <label className="block mb-1 font-medium">New Username</label>
-              <input type="text" value={adminNewUsername} onChange={e => setAdminNewUsername(e.target.value)} className="w-full px-3 py-2 border rounded-3xl bg-gray-900" placeholder="Leave blank to keep current" />
+              <input type="text"
+              disabled value={adminNewUsername} onChange={e => setAdminNewUsername(e.target.value)} className="w-full px-3 py-2 border rounded-3xl bg-gray-900" placeholder="Leave blank to keep current" />
             </div>
             <div>
               <label className="block mb-1 font-medium">New Password</label>
-              <input type="password" value={adminNewPassword} onChange={e => setAdminNewPassword(e.target.value)} className="w-full px-3 py-2 border rounded-3xl" placeholder="Leave blank to keep current" />
+              <input type="password" disabled value={adminNewPassword} onChange={e => setAdminNewPassword(e.target.value)} className="w-full px-3 py-2 border rounded-3xl" placeholder="Leave blank to keep current" />
             </div>
             {adminUpdateSuccess && <div className="text-green-600">{adminUpdateSuccess}</div>}
             {adminUpdateError && <div className="text-red-500">{adminUpdateError}</div>}
-            <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-3xl" disabled={loading}>{loading ? "Updating..." : "Update Admin"}</button>
+            <button type="submit" disabled className="bg-blue-600 text-white px-4 py-2 rounded-3xl">Update Admin</button>
           </form>
         </div>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label className="block mb-1 font-medium">Username</label>
-            <input type="text" value={username} onChange={e => setUsername(e.target.value)} className="w-full px-3 py-2 border rounded-3xl" required />
+            <input type="text" disabled value={username} onChange={e => setUsername(e.target.value)} className="w-full px-3 py-2 border rounded-3xl" required />
           </div>
           <div>
             <label className="block mb-1 font-medium">Password</label>
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full px-3 py-2 border rounded-3xl" required />
+            <input type="password" disabled value={password} onChange={e => setPassword(e.target.value)} className="w-full px-3 py-2 border rounded-3xl" required />
           </div>
           {success && <div className="text-green-600">{success}</div>}
           {error && <div className="text-red-500">{error}</div>}
-          <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-3xl" disabled={loading}>{loading ? "Creating..." : "Create Worker"}</button>
+          <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-3xl" disabled>Create Worker</button>
         </form>
         <hr className="my-8" />
         <h2 className="text-xl font-bold mb-2">All Users</h2>
@@ -172,7 +173,7 @@ const UserManagement = () => {
                     <button
                       className="bg-red-600 text-white px-3 py-1 rounded-3xl hover:bg-red-700"
                       onClick={() => handleDelete(u.username)}
-                      disabled={loading}
+                      disabled
                     >
                       Delete
                     </button>
